@@ -8,7 +8,6 @@ back_color := rl.Color{49, 124, 100, 255}
 
 init :: proc() {
 	run = true
-	fmt.println("abc")
 
 	rl.SetConfigFlags({.VSYNC_HINT, .WINDOW_RESIZABLE, .WINDOW_MAXIMIZED})
 	rl.SetTargetFPS(60)
@@ -20,6 +19,10 @@ update :: proc() {
 	frame_time := rl.GetFrameTime()
 	rl.BeginDrawing()
 	rl.ClearBackground(back_color)
+
+	fps := 1 / frame_time
+	rl.DrawText(fmt.ctprint(fps), 10, 10, 60, rl.WHITE)
+
 	rl.EndDrawing()
 
 	// Anything allocated using temp allocator is invalid after this.
@@ -39,5 +42,9 @@ should_run :: proc() -> bool {
 
 shutdown :: proc() {
 	rl.CloseWindow()
+}
+
+parent_window_size_changed :: proc(w, h: int) {
+	// 	rl.SetWindowSize(c.int(w), c.int(h))
 }
 
