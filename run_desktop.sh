@@ -1,0 +1,9 @@
+#!/bin/bash -eu
+
+OUT_DIR="build/desktop"
+mkdir -p $OUT_DIR
+odin build source/main_desktop -out:$OUT_DIR/forest_desktop.bin
+cp -R ./assets/ ./$OUT_DIR/assets/
+
+./$OUT_DIR/forest_desktop.bin
+
