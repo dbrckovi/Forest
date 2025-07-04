@@ -5,6 +5,8 @@ import rl "vendor:raylib"
 
 run: bool
 back_color := rl.Color{49, 124, 100, 255}
+debug_back_color := rl.Color{22, 22, 22, 155}
+debug_fore_color := rl.Color{255, 255, 255, 150}
 
 init :: proc() {
 	run = true
@@ -16,22 +18,38 @@ init :: proc() {
 }
 
 update :: proc() {
-	frame_time := rl.GetFrameTime()
+
+	update_environment()
+
+	draw()
+
+	free_all(context.temp_allocator)
+}
+
+
+draw :: proc() {
 	rl.BeginDrawing()
 	rl.ClearBackground(back_color)
 
-	fps := 1 / frame_time
-	rl.DrawText(fmt.ctprint(fps), 10, 10, 60, rl.WHITE)
+
+	//draw debug section
+	rl.DrawRectangle(
+		0,
+		env.window_size.y - 40,
+		env.window_size.x,
+		env.window_size.y,
+		debug_back_color,
+	)
+
+	message: cstring = fmt.ctprint("Size: ", env.window_size, ", Fps:", env.fps)
+
+	rl.DrawText(message, 5, env.window_size.y - 35, 30, debug_fore_color)
 
 	rl.EndDrawing()
-
-	// Anything allocated using temp allocator is invalid after this.
-	free_all(context.temp_allocator)
 }
 
 should_run :: proc() -> bool {
 	when ODIN_OS != .JS {
-		// Never run this proc in browser. It contains a 16 ms sleep on web!
 		if rl.WindowShouldClose() {
 			run = false
 		}
