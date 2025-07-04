@@ -4,8 +4,7 @@ import "core:fmt"
 import "core:math"
 import rl "vendor:raylib"
 
-env: Environment
-
+//Holds window, frame and other data which might change each frame
 Environment :: struct {
 	frame_time:       f32,
 	fps:              i32,
@@ -13,11 +12,13 @@ Environment :: struct {
 	window_scale_dpi: [2]f32,
 }
 
-//Updates variables needed for drawing current frame
-update_environment :: proc() {
-	env.frame_time = rl.GetFrameTime()
-	env.fps = i32(math.ceil_f32(1 / env.frame_time))
-	env.window_size = {rl.GetRenderWidth(), rl.GetRenderHeight()}
-	env.window_scale_dpi = rl.GetWindowScaleDPI()
+//Returns data needed for updating and drawing each frame
+get_environment_data :: proc() -> Environment {
+	return {
+		frame_time = rl.GetFrameTime(),
+		fps = i32(math.ceil_f32(1 / rl.GetFrameTime())),
+		window_size = {rl.GetRenderWidth(), rl.GetRenderHeight()},
+		window_scale_dpi = rl.GetWindowScaleDPI(),
+	}
 }
 

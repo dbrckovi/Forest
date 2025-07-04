@@ -7,7 +7,8 @@ DEBUG_BACK_COLOR := rl.Color{22, 22, 22, 155}
 DEBUG_FORE_COLOR := rl.Color{255, 255, 255, 150}
 DEBUG_FONT_SIZE: i32 : 15
 
-draw_debug :: proc() {
+//Draws debug panel
+draw_debug :: proc(env: Environment) {
 
 	padding: i32 = i32(3 * env.window_scale_dpi.y)
 	font_size := i32(f32(DEBUG_FONT_SIZE) * env.window_scale_dpi.y)

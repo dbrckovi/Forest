@@ -6,6 +6,7 @@ import rl "vendor:raylib"
 run: bool
 back_color := rl.Color{49, 124, 100, 255}
 
+//Initializes the program
 init :: proc() {
 	run = true
 
@@ -15,21 +16,22 @@ init :: proc() {
 	rl.MaximizeWindow()
 }
 
+//Updates and draws everything each frame
 update :: proc() {
 
-	update_environment()
+	env := get_environment_data()
 
-	draw()
+	draw(env)
 
 	free_all(context.temp_allocator)
 }
 
-
-draw :: proc() {
+//Draws current frame
+draw :: proc(env: Environment) {
 	rl.BeginDrawing()
 	rl.ClearBackground(back_color)
 
-	draw_debug()
+	draw_debug(env)
 
 	rl.EndDrawing()
 }
