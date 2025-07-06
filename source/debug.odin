@@ -10,6 +10,7 @@ DEBUG_FONT_SIZE: i32 : 15
 //Draws debug panel
 draw_debug :: proc(env: Environment) {
 
+	//bottom panel
 	padding: i32 = i32(3 * env.window_scale_dpi.y)
 	font_size := i32(f32(DEBUG_FONT_SIZE) * env.window_scale_dpi.y)
 	debug_height := font_size + 2 * padding
